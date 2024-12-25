@@ -21,7 +21,6 @@ public class OptionsScreen extends JDialog {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
-
         backgroundPanel.setLayout(null); // Manuel yerleştirme
         setContentPane(backgroundPanel); // backgroundPanel'ı içerik paneli olarak ayarla
 
@@ -30,42 +29,48 @@ public class OptionsScreen extends JDialog {
         soundToggle.setBounds(278, 120, 80, 33); // Yeni koordinat ve boyut
         soundToggle.setBackground(new Color(0, 0, 0, 0)); // Şeffaf arka plan
         soundToggle.setOpaque(false); // Opaklık kaldırıldı, şeffaf oldu
-        soundToggle.setForeground(Color.WHITE);
+        soundToggle.setForeground(new Color(239, 165, 82)); // İstenilen renk
+        soundToggle.setFont(new Font("Arial", Font.BOLD, 18)); // Yazı tipini büyüt
         soundToggle.setFocusPainted(false); // Fokus çizgisi olmasın
         soundToggle.setContentAreaFilled(false); // İç alanı şeffaf yap
         soundToggle.setBorderPainted(false); // Çerçeveyi kaldır
         soundToggle.addActionListener(e -> {
             if (soundToggle.isSelected()) {
                 soundToggle.setText("OFF");
+                MusicManager.stopMusic(); // Ses kapandığında tüm sesleri durdur
             } else {
                 soundToggle.setText("ON");
+                MusicManager.playMusic("resources/sound.wav"); // Ana müzik çalsın
+                MusicManager.playBark(); // Bark sesini çalsın
+                MusicManager.playMeow(); // Meow sesini çalsın
             }
-            // Arka planın şeffaf olduğundan emin ol
-            soundToggle.setBackground(new Color(0, 0, 0, 0));
         });
         backgroundPanel.add(soundToggle);
-
-// Music toggle button
-        JToggleButton musicToggle = new JToggleButton("OFF");
+        // Music toggle button
+        JToggleButton musicToggle = new JToggleButton("ON"); // Başlangıçta "ON" olarak ayarlandı
         musicToggle.setBounds(278, 192, 80, 33); // Yeni koordinat ve boyut
         musicToggle.setBackground(new Color(0, 0, 0, 0)); // Şeffaf arka plan
         musicToggle.setOpaque(false); // Opaklık kaldırıldı, şeffaf oldu
-        musicToggle.setForeground(Color.WHITE);
+        musicToggle.setForeground(new Color(239, 165, 82)); // İstenilen renk
+        musicToggle.setFont(new Font("Arial", Font.BOLD, 18)); // Yazı tipini büyüt
         musicToggle.setFocusPainted(false); // Fokus çizgisi olmasın
         musicToggle.setContentAreaFilled(false); // İç alanı şeffaf yap
         musicToggle.setBorderPainted(false); // Çerçeveyi kaldır
+
+// Müzik durumuna göre buton metni değişiyor
         musicToggle.addActionListener(e -> {
             if (musicToggle.isSelected()) {
                 musicToggle.setText("ON");
+                MusicManager.playMusic("resources/sound.wav"); // Müzik çalması sağlanır
             } else {
                 musicToggle.setText("OFF");
+                MusicManager.stopMusic(); // Müzik durdurulur
             }
-            // Arka planın şeffaf olduğundan emin ol
-            musicToggle.setBackground(new Color(0, 0, 0, 0));
         });
         backgroundPanel.add(musicToggle);
 
-// Menu button
+
+        // Menu button
         JButton menuButton = new JButton();
         menuButton.setBounds(45, 265, 86, 85); // Yeni koordinat ve boyut
         menuButton.setBackground(new Color(0, 0, 0, 0)); // Şeffaf arka plan
@@ -74,6 +79,10 @@ public class OptionsScreen extends JDialog {
         menuButton.setContentAreaFilled(false); // İç alanı şeffaf yap
         menuButton.setBorderPainted(false); // Çerçeveyi kaldır
         backgroundPanel.add(menuButton);
+        menuButton.addActionListener(e -> {
+            new MainMenu();
+            dispose();
+        });
 
         // Replay button
         JButton replayButton = new JButton();
@@ -94,6 +103,7 @@ public class OptionsScreen extends JDialog {
         continueButton.setContentAreaFilled(false); // İç alanı şeffaf yap
         continueButton.setBorderPainted(false); // Çerçeveyi kaldır
         backgroundPanel.add(continueButton);
+
         // Close button without text and border
         JButton closeButton = new JButton();
         closeButton.setBounds(385, 25, 50, 30); // Yeni koordinat ve boyut
@@ -105,5 +115,3 @@ public class OptionsScreen extends JDialog {
         backgroundPanel.add(closeButton);
     }
 }
-
-
