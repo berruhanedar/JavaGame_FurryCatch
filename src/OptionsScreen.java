@@ -27,66 +27,83 @@ public class OptionsScreen extends JDialog {
 
         // Sound toggle button
         JToggleButton soundToggle = new JToggleButton("ON");
-        soundToggle.setBounds(250, 80, 80, 30);
-        soundToggle.setBackground(Color.GREEN);
+        soundToggle.setBounds(278, 120, 80, 33); // Yeni koordinat ve boyut
+        soundToggle.setBackground(new Color(0, 0, 0, 0)); // Şeffaf arka plan
+        soundToggle.setOpaque(false); // Opaklık kaldırıldı, şeffaf oldu
         soundToggle.setForeground(Color.WHITE);
-        soundToggle.setFocusPainted(false);
+        soundToggle.setFocusPainted(false); // Fokus çizgisi olmasın
+        soundToggle.setContentAreaFilled(false); // İç alanı şeffaf yap
+        soundToggle.setBorderPainted(false); // Çerçeveyi kaldır
         soundToggle.addActionListener(e -> {
             if (soundToggle.isSelected()) {
                 soundToggle.setText("OFF");
-                soundToggle.setBackground(Color.RED);
             } else {
                 soundToggle.setText("ON");
-                soundToggle.setBackground(Color.GREEN);
             }
+            // Arka planın şeffaf olduğundan emin ol
+            soundToggle.setBackground(new Color(0, 0, 0, 0));
         });
         backgroundPanel.add(soundToggle);
 
-        // Music toggle button
+// Music toggle button
         JToggleButton musicToggle = new JToggleButton("OFF");
-        musicToggle.setBounds(250, 140, 80, 30);
-        musicToggle.setBackground(Color.RED);
+        musicToggle.setBounds(278, 192, 80, 33); // Yeni koordinat ve boyut
+        musicToggle.setBackground(new Color(0, 0, 0, 0)); // Şeffaf arka plan
+        musicToggle.setOpaque(false); // Opaklık kaldırıldı, şeffaf oldu
         musicToggle.setForeground(Color.WHITE);
-        musicToggle.setFocusPainted(false);
+        musicToggle.setFocusPainted(false); // Fokus çizgisi olmasın
+        musicToggle.setContentAreaFilled(false); // İç alanı şeffaf yap
+        musicToggle.setBorderPainted(false); // Çerçeveyi kaldır
         musicToggle.addActionListener(e -> {
             if (musicToggle.isSelected()) {
                 musicToggle.setText("ON");
-                musicToggle.setBackground(Color.GREEN);
             } else {
                 musicToggle.setText("OFF");
-                musicToggle.setBackground(Color.RED);
             }
+            // Arka planın şeffaf olduğundan emin ol
+            musicToggle.setBackground(new Color(0, 0, 0, 0));
         });
         backgroundPanel.add(musicToggle);
 
-        // Bottom buttons
+// Menu button
         JButton menuButton = new JButton();
-        menuButton.setBounds(50, 250, 60, 60);
-        menuButton.setBackground(Color.GREEN);
-        menuButton.setFocusPainted(false);
+        menuButton.setBounds(45, 265, 86, 85); // Yeni koordinat ve boyut
+        menuButton.setBackground(new Color(0, 0, 0, 0)); // Şeffaf arka plan
+        menuButton.setOpaque(false); // Opaklık kaldırıldı, şeffaf oldu
+        menuButton.setFocusPainted(false); // Fokus çizgisi olmasın
+        menuButton.setContentAreaFilled(false); // İç alanı şeffaf yap
+        menuButton.setBorderPainted(false); // Çerçeveyi kaldır
         backgroundPanel.add(menuButton);
 
+        // Replay button
         JButton replayButton = new JButton();
-        replayButton.setBounds(160, 250, 60, 60);
-        replayButton.setBackground(Color.GREEN);
-        replayButton.setFocusPainted(false);
+        replayButton.setBounds(188, 265, 86, 85); // Yeni koordinat ve boyut
+        replayButton.setBackground(new Color(0, 0, 0, 0)); // Şeffaf arka plan
+        replayButton.setOpaque(false); // Opaklık kaldırıldı, şeffaf oldu
+        replayButton.setFocusPainted(false); // Fokus çizgisi olmasın
+        replayButton.setContentAreaFilled(false); // İç alanı şeffaf yap
+        replayButton.setBorderPainted(false); // Çerçeveyi kaldır
         backgroundPanel.add(replayButton);
 
+        // Continue button
         JButton continueButton = new JButton();
-        continueButton.setBounds(270, 250, 60, 60);
-        continueButton.setBackground(Color.GREEN);
-        continueButton.setFocusPainted(false);
+        continueButton.setBounds(325, 265, 86, 85); // Yeni koordinat ve boyut
+        continueButton.setBackground(new Color(0, 0, 0, 0)); // Şeffaf arka plan
+        continueButton.setOpaque(false); // Opaklık kaldırıldı, şeffaf oldu
+        continueButton.setFocusPainted(false); // Fokus çizgisi olmasın
+        continueButton.setContentAreaFilled(false); // İç alanı şeffaf yap
+        continueButton.setBorderPainted(false); // Çerçeveyi kaldır
         backgroundPanel.add(continueButton);
-
-        // Close button
-        JButton closeButton = new JButton("X");
-        closeButton.setBounds(400, 20, 50, 30); // İstenilen pozisyon ve boyut
-        closeButton.setBackground(Color.RED);
-        closeButton.setForeground(Color.WHITE);
+        // Close button without text and border
+        JButton closeButton = new JButton();
+        closeButton.setBounds(385, 25, 50, 30); // Yeni koordinat ve boyut
+        closeButton.setBackground(Color.RED); // Kapatma butonunun arka plan rengini kırmızı yapalım
         closeButton.setFocusPainted(false);
+        closeButton.setBorderPainted(false); // Çerçeveyi kaldır
+        closeButton.setContentAreaFilled(false); // İç alanı doldurma
         closeButton.addActionListener(e -> dispose()); // Pencereyi kapatır
         backgroundPanel.add(closeButton);
-
     }
-
 }
+
+
