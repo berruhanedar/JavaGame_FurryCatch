@@ -4,14 +4,13 @@ import java.awt.*;
 public class OptionsScreen extends JDialog {
 
     public OptionsScreen(JFrame parent) {
-        super(parent, "", true); // Başlık kısmı boş olacak şekilde ayarlandı
-        setUndecorated(true); // Başlık çubuğunu kaldırmak için
+        super(parent, "", true);
+        setUndecorated(true);
         setSize(490, 490);
         setLayout(null);
         setResizable(false);
         setLocationRelativeTo(parent);
 
-        // Create a JPanel for the background
         JPanel backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -21,97 +20,91 @@ public class OptionsScreen extends JDialog {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        backgroundPanel.setLayout(null); // Manuel yerleştirme
-        setContentPane(backgroundPanel); // backgroundPanel'ı içerik paneli olarak ayarla
+        backgroundPanel.setLayout(null);
+        setContentPane(backgroundPanel);
 
         // Sound toggle button
         JToggleButton soundToggle = new JToggleButton("ON");
-        soundToggle.setBounds(278, 120, 80, 33); // Yeni koordinat ve boyut
-        soundToggle.setBackground(new Color(0, 0, 0, 0)); // Şeffaf arka plan
-        soundToggle.setOpaque(false); // Opaklık kaldırıldı, şeffaf oldu
-        soundToggle.setForeground(new Color(239, 165, 82)); // İstenilen renk
-        soundToggle.setFont(new Font("Arial", Font.BOLD, 18)); // Yazı tipini büyüt
-        soundToggle.setFocusPainted(false); // Fokus çizgisi olmasın
-        soundToggle.setContentAreaFilled(false); // İç alanı şeffaf yap
-        soundToggle.setBorderPainted(false); // Çerçeveyi kaldır
+        soundToggle.setBounds(278, 120, 80, 33);
+        soundToggle.setBackground(new Color(0, 0, 0, 0));
+        soundToggle.setOpaque(false);
+        soundToggle.setForeground(new Color(239, 165, 82));
+        soundToggle.setFont(new Font("Arial", Font.BOLD, 18));
+        soundToggle.setFocusPainted(false);
+        soundToggle.setContentAreaFilled(false);
+        soundToggle.setBorderPainted(false);
         soundToggle.addActionListener(e -> {
             if (soundToggle.isSelected()) {
                 soundToggle.setText("OFF");
-                MusicManager.stopMusic(); // Ses kapandığında tüm sesleri durdur
+                MusicManager.stopAllSounds();
             } else {
                 soundToggle.setText("ON");
-                MusicManager.playMusic("resources/sound.wav"); // Ana müzik çalsın
-                MusicManager.playBark(); // Bark sesini çalsın
-                MusicManager.playMeow(); // Meow sesini çalsın
+                MusicManager.playBark();
             }
         });
         backgroundPanel.add(soundToggle);
-        // Music toggle button
-        JToggleButton musicToggle = new JToggleButton("ON"); // Başlangıçta "ON" olarak ayarlandı
-        musicToggle.setBounds(278, 192, 80, 33); // Yeni koordinat ve boyut
-        musicToggle.setBackground(new Color(0, 0, 0, 0)); // Şeffaf arka plan
-        musicToggle.setOpaque(false); // Opaklık kaldırıldı, şeffaf oldu
-        musicToggle.setForeground(new Color(239, 165, 82)); // İstenilen renk
-        musicToggle.setFont(new Font("Arial", Font.BOLD, 18)); // Yazı tipini büyüt
-        musicToggle.setFocusPainted(false); // Fokus çizgisi olmasın
-        musicToggle.setContentAreaFilled(false); // İç alanı şeffaf yap
-        musicToggle.setBorderPainted(false); // Çerçeveyi kaldır
 
-// Müzik durumuna göre buton metni değişiyor
+        JToggleButton musicToggle = new JToggleButton("ON");
+        musicToggle.setBounds(278, 192, 80, 33);
+        musicToggle.setBackground(new Color(0, 0, 0, 0));
+        musicToggle.setOpaque(false);
+        musicToggle.setForeground(new Color(239, 165, 82));
+        musicToggle.setFont(new Font("Arial", Font.BOLD, 18));
+        musicToggle.setFocusPainted(false);
+        musicToggle.setContentAreaFilled(false);
+        musicToggle.setBorderPainted(false);
+
         musicToggle.addActionListener(e -> {
             if (musicToggle.isSelected()) {
                 musicToggle.setText("ON");
-                MusicManager.playMusic("resources/sound.wav"); // Müzik çalması sağlanır
+                if (!soundToggle.isSelected()) {
+                    MusicManager.playMusic("resources/music.wav");
+                }
             } else {
                 musicToggle.setText("OFF");
-                MusicManager.stopMusic(); // Müzik durdurulur
+                MusicManager.stopMusic();
             }
         });
         backgroundPanel.add(musicToggle);
 
-
-        // Menu button
         JButton menuButton = new JButton();
-        menuButton.setBounds(45, 265, 86, 85); // Yeni koordinat ve boyut
-        menuButton.setBackground(new Color(0, 0, 0, 0)); // Şeffaf arka plan
-        menuButton.setOpaque(false); // Opaklık kaldırıldı, şeffaf oldu
-        menuButton.setFocusPainted(false); // Fokus çizgisi olmasın
-        menuButton.setContentAreaFilled(false); // İç alanı şeffaf yap
-        menuButton.setBorderPainted(false); // Çerçeveyi kaldır
+        menuButton.setBounds(45, 265, 86, 85);
+        menuButton.setBackground(new Color(0, 0, 0, 0));
+        menuButton.setOpaque(false);
+        menuButton.setFocusPainted(false);
+        menuButton.setContentAreaFilled(false);
+        menuButton.setBorderPainted(false);
         backgroundPanel.add(menuButton);
         menuButton.addActionListener(e -> {
             new MainMenu();
             dispose();
         });
 
-        // Replay button
         JButton replayButton = new JButton();
-        replayButton.setBounds(188, 265, 86, 85); // Yeni koordinat ve boyut
-        replayButton.setBackground(new Color(0, 0, 0, 0)); // Şeffaf arka plan
-        replayButton.setOpaque(false); // Opaklık kaldırıldı, şeffaf oldu
-        replayButton.setFocusPainted(false); // Fokus çizgisi olmasın
-        replayButton.setContentAreaFilled(false); // İç alanı şeffaf yap
-        replayButton.setBorderPainted(false); // Çerçeveyi kaldır
+        replayButton.setBounds(188, 265, 86, 85);
+        replayButton.setBackground(new Color(0, 0, 0, 0));
+        replayButton.setOpaque(false);
+        replayButton.setFocusPainted(false);
+        replayButton.setContentAreaFilled(false);
+        replayButton.setBorderPainted(false);
         backgroundPanel.add(replayButton);
 
-        // Continue button
         JButton continueButton = new JButton();
-        continueButton.setBounds(325, 265, 86, 85); // Yeni koordinat ve boyut
-        continueButton.setBackground(new Color(0, 0, 0, 0)); // Şeffaf arka plan
-        continueButton.setOpaque(false); // Opaklık kaldırıldı, şeffaf oldu
-        continueButton.setFocusPainted(false); // Fokus çizgisi olmasın
-        continueButton.setContentAreaFilled(false); // İç alanı şeffaf yap
-        continueButton.setBorderPainted(false); // Çerçeveyi kaldır
+        continueButton.setBounds(325, 265, 86, 85);
+        continueButton.setBackground(new Color(0, 0, 0, 0));
+        continueButton.setOpaque(false);
+        continueButton.setFocusPainted(false);
+        continueButton.setContentAreaFilled(false);
+        continueButton.setBorderPainted(false);
         backgroundPanel.add(continueButton);
 
-        // Close button without text and border
         JButton closeButton = new JButton();
-        closeButton.setBounds(385, 25, 50, 30); // Yeni koordinat ve boyut
-        closeButton.setBackground(Color.RED); // Kapatma butonunun arka plan rengini kırmızı yapalım
+        closeButton.setBounds(385, 25, 50, 30);
+        closeButton.setBackground(Color.RED);
         closeButton.setFocusPainted(false);
-        closeButton.setBorderPainted(false); // Çerçeveyi kaldır
-        closeButton.setContentAreaFilled(false); // İç alanı doldurma
-        closeButton.addActionListener(e -> dispose()); // Pencereyi kapatır
+        closeButton.setBorderPainted(false);
+        closeButton.setContentAreaFilled(false);
+        closeButton.addActionListener(e -> dispose());
         backgroundPanel.add(closeButton);
     }
 }
