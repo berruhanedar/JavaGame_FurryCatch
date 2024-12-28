@@ -18,7 +18,6 @@ public class CatClass {
     }
 
     public void move() {
-        // Random movement logic
         this.x = new Random().nextInt(100);
         this.y = new Random().nextInt(100);
     }
