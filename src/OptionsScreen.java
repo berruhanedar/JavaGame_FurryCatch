@@ -1,9 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-
 public class OptionsScreen extends JDialog {
-
     private boolean isMusicPlaying = false;
     private boolean isSoundEnabled = true;
 
@@ -14,6 +12,12 @@ public class OptionsScreen extends JDialog {
         setLayout(null);
         setResizable(false);
         setLocationRelativeTo(parent);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        int x = (screenSize.width - getWidth()) / 2;
+        int y = (screenSize.height - getHeight()) / 2;
+        setLocation(x, y);
 
         JPanel backgroundPanel = new JPanel() {
             @Override
@@ -27,7 +31,6 @@ public class OptionsScreen extends JDialog {
         backgroundPanel.setLayout(null);
         setContentPane(backgroundPanel);
 
-        // Sound toggle button
         JToggleButton soundToggle = new JToggleButton("ON");
         soundToggle.setBounds(278, 120, 80, 33);
         styleToggleButton(soundToggle);
@@ -44,7 +47,6 @@ public class OptionsScreen extends JDialog {
         });
         backgroundPanel.add(soundToggle);
 
-        // Music toggle button
         JToggleButton musicToggle = new JToggleButton("ON");
         musicToggle.setBounds(278, 192, 80, 33);
         styleToggleButton(musicToggle);
@@ -57,44 +59,49 @@ public class OptionsScreen extends JDialog {
                 musicToggle.setText("ON");
                 isMusicPlaying = true;
                 if (isSoundEnabled) {
-                    MusicManager.playGameMusic(); // Play game music if sound is enabled
+                    MusicManager.playGameMusic();
                 }
             }
         });
-
         backgroundPanel.add(musicToggle);
 
-        // Menu button
         JButton menuButton = new JButton();
         menuButton.setBounds(45, 265, 86, 85);
         styleButton(menuButton);
         menuButton.addActionListener(e -> {
-            dispose(); // Mevcut pencereyi kapat
-            parent.dispose(); // Ana pencereyi kapat
+            dispose();
+            parent.dispose();
 
-            // MainMenu sınıfını başlat
             MainMenu mainMenu = new MainMenu();
-            mainMenu.setVisible(true); // MainMenu ekranını göster
+            mainMenu.setVisible(true);
         });
         backgroundPanel.add(menuButton);
 
+        JButton restartButton = new JButton();
+        restartButton.setBounds(188, 265, 86, 85);
+        styleButton(restartButton);
+        restartButton.addActionListener(e -> {
+            System.out.println("Restart button clicked.");
+            if (parent instanceof MainMenu mainMenu) {
+                if (!mainMenu.isGameStarted) {
+                    // Game hasn't started yet
+                    mainMenu.openGameScreen();
+                } else {
+                    // Game has started, reset the game
+                    GameClass newGameClass = new GameClass(mainMenu.currentDog, mainMenu.currentCat);
+                    newGameClass.restartGame(mainMenu.currentDog, mainMenu.currentCat); // Reset game
+                    dispose(); // Close the options screen
+                }
+            }
+        });
+        backgroundPanel.add(restartButton);
 
-
-        // Replay button
-        JButton replayButton = new JButton();
-        replayButton.setBounds(188, 265, 86, 85);
-        styleButton(replayButton);
-        backgroundPanel.add(replayButton);
-
-        // Continue button
         JButton continueButton = new JButton();
         continueButton.setBounds(325, 265, 86, 85);
         styleButton(continueButton);
-        continueButton.addActionListener(e -> dispose()); // OptionsScreen'i kapat
+        continueButton.addActionListener(e -> dispose());
         backgroundPanel.add(continueButton);
 
-
-        // Close button
         JButton closeButton = new JButton();
         closeButton.setBounds(385, 25, 50, 30);
         closeButton.setBackground(Color.RED);
