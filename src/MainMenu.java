@@ -9,8 +9,11 @@ import java.io.IOException;
 public class MainMenu extends JFrame {
     private JButton newGameButton;
     private JButton optionsButton;
-    private JButton highScoresButton;
+    private JButton howToPlayButton;
     private JButton exitButton;
+    public boolean isGameStarted = false;
+    public DogClass currentDog;
+    public CatClass currentCat;
 
     public MainMenu() {
         setTitle("Furry Catch");
@@ -20,7 +23,6 @@ public class MainMenu extends JFrame {
         setUndecorated(true);
         setLayout(null);
 
-        // Simgeyi ayarla
         ImageIcon icon = new ImageIcon(getClass().getResource("furrycatch.png"));
         setIconImage(icon.getImage());
 
@@ -45,10 +47,11 @@ public class MainMenu extends JFrame {
         optionsButton.setBounds(450, 653, 204, 65);
         buttonPanel.add(optionsButton);
 
-        highScoresButton = new GradientTextButton("HIGH SCORES");
-        styleButton(highScoresButton);
-        highScoresButton.setBounds(195, 736, 459, 74);
-        buttonPanel.add(highScoresButton);
+        // Changed to "How to Play"
+        howToPlayButton = new GradientTextButton("HOW TO PLAY");
+        styleButton(howToPlayButton);
+        howToPlayButton.setBounds(195, 736, 459, 74);
+        buttonPanel.add(howToPlayButton);
 
         exitButton = new GradientTextButton("");
         styleButton(exitButton);
@@ -78,7 +81,8 @@ public class MainMenu extends JFrame {
 
         newGameButton.addActionListener(e -> openGameScreen());
         optionsButton.addActionListener(e -> showOptionsScreen());
-        highScoresButton.addActionListener(e -> showHighScoresScreen());
+
+        howToPlayButton.addActionListener(e -> showHowToPlayDialog());
 
         setVisible(true);
     }
@@ -98,7 +102,7 @@ public class MainMenu extends JFrame {
         Font smallerFont = font.deriveFont(28f);
         newGameButton.setFont(smallerFont);
         optionsButton.setFont(smallerFont);
-        highScoresButton.setFont(smallerFont);
+        howToPlayButton.setFont(smallerFont);
     }
 
     private void styleButton(JButton button) {
@@ -108,64 +112,96 @@ public class MainMenu extends JFrame {
         button.setBorder(null);
     }
 
-    private void openGameScreen() {
+    public void openGameScreen() {
+        isGameStarted = true;
+
         MusicManager.stopMusic();
         MusicManager.playMusic("resources/gameMusic.wav");
 
         this.setVisible(false);
 
-        // Köpek simgesini 20x20 olarak ayarla
         ImageIcon dogIconOriginal = new ImageIcon("resources/dogs_icon.png");
         Image dogIconImage = dogIconOriginal.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon dogIcon = new ImageIcon(dogIconImage);
 
-        String dogName = (String) JOptionPane.showInputDialog(
-                this,
-                "Enter dog name:",
-                "Dog Name Input",
-                JOptionPane.PLAIN_MESSAGE,
-                dogIcon,
-                null,
-                ""
-        );
+        String dogName = null;
 
-        // Köpek adı girildiyse bark.wav sesini çal
-        if (dogName != null && !dogName.trim().isEmpty()) {
-            playSound("resources/bark.wav");
+        // Köpek adı girişi
+        while (dogName == null || dogName.trim().isEmpty()) {
+            dogName = (String) JOptionPane.showInputDialog(
+                    this,
+                    "Enter dog name:",
+                    "DOG",
+                    JOptionPane.PLAIN_MESSAGE,
+                    dogIcon,
+                    null,
+                    ""
+            );
+
+            if (dogName == null) {
+                // Kullanıcı Back'a basarsa ana menüye dönüyoruz
+                goToMainMenu();
+                return;
+            }
+
+            if (dogName.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Dog name cannot be empty!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
-        // Kedi simgesini 20x20 olarak ayarla
+        // Köpek havlama sesi
+        playSound("resources/bark.wav");
+        System.out.println(dogName + " is barked!");
+
         ImageIcon catIconOriginal = new ImageIcon("resources/cats_icon.png");
         Image catIconImage = catIconOriginal.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon catIcon = new ImageIcon(catIconImage);
 
-        String catName = (String) JOptionPane.showInputDialog(
-                this,
-                "Enter cat name:",
-                "Cat Name Input",
-                JOptionPane.PLAIN_MESSAGE,
-                catIcon,
-                null,
-                ""
-        );
+        String catName = null;
 
-        // Köpek adı girildiyse bark.wav sesini çal
-        if (dogName != null && !dogName.trim().isEmpty()) {
-            playSound("resources/meow.wav");
-        }
-        // Kullanıcı boş bırakırsa veya iptal ederse
-        if (dogName == null || dogName.trim().isEmpty() || catName == null || catName.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "You must enter both names to proceed.", "Input Error", JOptionPane.ERROR_MESSAGE);
-            return;
+        // Kedi adı girişi
+        while (catName == null || catName.trim().isEmpty()) {
+            catName = (String) JOptionPane.showInputDialog(
+                    this,
+                    "Enter cat name:",
+                    "CAT",
+                    JOptionPane.PLAIN_MESSAGE,
+                    catIcon,
+                    null,
+                    ""
+            );
+
+            if (catName == null) {
+                // Kullanıcı Back'a basarsa ana menüye dönüyoruz
+                goToMainMenu();
+                return;
+            }
+
+            if (catName.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Cat name cannot be empty!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
-        // Yeni oyun sınıfına isimleri ilet
-        DogClass dog = new DogClass(dogName);
-        CatClass cat = new CatClass(catName);
-        new GameClass(dog, cat);
+        // Kedi miyavlama sesi
+        playSound("resources/meow.wav");
+        System.out.println(catName + " is meowed!");
+
+        // Oyun başlatılacak
+        currentDog = new DogClass(dogName);
+        currentCat = new CatClass(catName);
+        new GameClass(currentDog, currentCat);
     }
 
-    // Ses dosyasını çalmak için bir yardımcı metot
+
+    private void goToMainMenu() {
+        // Ana menüye dönme işlemi
+        JOptionPane.showMessageDialog(this, "Returning to main menu...");
+        System.out.println("Returning to main menu...");
+        // Ana menüye geri dönmek için yeni bir MainMenu örneği oluşturabiliriz:
+        new MainMenu();
+        this.dispose();  // Mevcut pencereyi kapat
+    }
+
     private void playSound(String soundFilePath) {
         try {
             File soundFile = new File(soundFilePath);
@@ -178,7 +214,6 @@ public class MainMenu extends JFrame {
         }
     }
 
-
     private void showOptionsScreen() {
         OptionsScreen optionsScreen = new OptionsScreen(this);
         optionsScreen.setLocation(195, 250);
@@ -189,8 +224,19 @@ public class MainMenu extends JFrame {
         optionsScreen.setVisible(true);
     }
 
-    private void showHighScoresScreen() {
-        new HighScoresScreen(this).setVisible(true);
+    private void showHowToPlayDialog() {
+        String gameInstructions = "How to Play:\n\n"
+                + "1. Click 'NEW GAME' to start a new game.\n"
+                + "2. Enter a dog and cat name when prompted.\n"
+                + "3. The goal is to catch the cat with the dog.\n"
+                + "4. The dog and cat will move randomly on the stage.\n"
+                + "5. If the dog and cat are 5 units away from each other, a fight will occur.\n"
+                + "6. If the dog and cat meet at the center of the stage (x:50, y:50), the game ends.\n"
+                + "7. When the game ends, you will see the message 'Game Over'.\n\n"
+                + "Enjoy the game!";
+
+
+        JOptionPane.showMessageDialog(this, gameInstructions, "How to Play", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void main(String[] args) {
