@@ -8,6 +8,7 @@ public class MusicManager {
     private static Clip gameoverClip;
     private static Clip catdogfightClip;
 
+
     public static void playGameMusic() {
         playMusic("resources/gameMusic.wav");
     }
