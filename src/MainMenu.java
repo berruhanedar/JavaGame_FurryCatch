@@ -1,3 +1,6 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -10,12 +13,16 @@ public class MainMenu extends JFrame {
     private JButton exitButton;
 
     public MainMenu() {
-        setTitle("Main Menu");
+        setTitle("Furry Catch");
         setSize(800, 840);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setUndecorated(true);
         setLayout(null);
+
+        // Simgeyi ayarla
+        ImageIcon icon = new ImageIcon(getClass().getResource("furrycatch.png"));
+        setIconImage(icon.getImage());
 
         ImageIcon originalImage = new ImageIcon(getClass().getResource("background.png"));
         Image scaledImage = originalImage.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
@@ -103,22 +110,74 @@ public class MainMenu extends JFrame {
 
     private void openGameScreen() {
         MusicManager.stopMusic();
-
-        MusicManager.playMusic("resources/gameSound.wav");
+        MusicManager.playMusic("resources/gameMusic.wav");
 
         this.setVisible(false);
 
-        String dogName = JOptionPane.showInputDialog("Enter dog name:");
-        String catName = JOptionPane.showInputDialog("Enter cat name:");
+        // Köpek simgesini 20x20 olarak ayarla
+        ImageIcon dogIconOriginal = new ImageIcon("resources/dogs_icon.png");
+        Image dogIconImage = dogIconOriginal.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        ImageIcon dogIcon = new ImageIcon(dogIconImage);
 
-        String dogIconPath = "resources/dog_icon.png";
-        String catIconPath = "resources/cat_icon.png";
+        String dogName = (String) JOptionPane.showInputDialog(
+                this,
+                "Enter dog name:",
+                "Dog Name Input",
+                JOptionPane.PLAIN_MESSAGE,
+                dogIcon,
+                null,
+                ""
+        );
 
+        // Köpek adı girildiyse bark.wav sesini çal
+        if (dogName != null && !dogName.trim().isEmpty()) {
+            playSound("resources/bark.wav");
+        }
+
+        // Kedi simgesini 20x20 olarak ayarla
+        ImageIcon catIconOriginal = new ImageIcon("resources/cats_icon.png");
+        Image catIconImage = catIconOriginal.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        ImageIcon catIcon = new ImageIcon(catIconImage);
+
+        String catName = (String) JOptionPane.showInputDialog(
+                this,
+                "Enter cat name:",
+                "Cat Name Input",
+                JOptionPane.PLAIN_MESSAGE,
+                catIcon,
+                null,
+                ""
+        );
+
+        // Köpek adı girildiyse bark.wav sesini çal
+        if (dogName != null && !dogName.trim().isEmpty()) {
+            playSound("resources/meow.wav");
+        }
+        // Kullanıcı boş bırakırsa veya iptal ederse
+        if (dogName == null || dogName.trim().isEmpty() || catName == null || catName.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "You must enter both names to proceed.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Yeni oyun sınıfına isimleri ilet
         DogClass dog = new DogClass(dogName);
         CatClass cat = new CatClass(catName);
-
         new GameClass(dog, cat);
     }
+
+    // Ses dosyasını çalmak için bir yardımcı metot
+    private void playSound(String soundFilePath) {
+        try {
+            File soundFile = new File(soundFilePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (Exception e) {
+            System.err.println("Error playing sound: " + e.getMessage());
+        }
+    }
+
 
     private void showOptionsScreen() {
         OptionsScreen optionsScreen = new OptionsScreen(this);
