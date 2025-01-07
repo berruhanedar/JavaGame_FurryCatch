@@ -135,7 +135,6 @@ public class MainMenu extends JFrame {
             );
 
             if (dogName == null) {
-                // Kullanıcı Back'a basarsa ana menüye dönüyoruz
                 goToMainMenu();
                 return;
             }
