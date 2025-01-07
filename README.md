@@ -14,22 +14,27 @@ Here are some screenshots of the different screens within the game:
 
 ### Main Menu Screen
 ![MAIN MENU SS](https://github.com/user-attachments/assets/0f04da08-2b01-4cbd-959c-d464828684dc)
+
 The main menu is the starting point for the game, allowing players to begin, adjust settings, or restart.
 
 ### Options Screen
 ![OPTIONS SCREEN SS](https://github.com/user-attachments/assets/0041e8ef-ddc6-4302-a178-812d226d0c98)
+
 The options screen lets users toggle sound and music preferences. There are buttons to stop or start sound/music, giving players control over their game environment.
 
 ### Game Board Screen
 ![GAME SCREEN SS](https://github.com/user-attachments/assets/adafa2be-3637-48a4-a5bd-187d35182c56)
+
 This is the main gameplay screen where users can interact with the game environment.
 
 ### Dog Input Screen
 ![DOG-INPUT SS](https://github.com/user-attachments/assets/7a6f7504-772c-4b1c-89af-96cfefe9c4f9)
+
 Here, players can input their preferences for the dog character.
 
 ### Cat Input Screen
 ![CAT-INPUT SS](https://github.com/user-attachments/assets/de5c7de0-345d-4aa9-b07d-dd1fbf9491a3)
+
 This screen lets users customize the cat character to fit their play style.
 
 ## How to Run
