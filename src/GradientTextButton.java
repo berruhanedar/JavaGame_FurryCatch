@@ -20,16 +20,11 @@ class GradientTextButton extends JButton {
         int textWidth = metrics.stringWidth(getText());
         int textHeight = metrics.getAscent();
 
-        // Beyaz renkli yazılar için GradientPaint oluşturuluyor, opaklık %80 olacak
         GradientPaint textGradient = new GradientPaint(
                 0, 0, new Color(255, 255, 255, 204), // %80 opaklık beyaz
                 getWidth(), getHeight(), new Color(255, 255, 255, 204)
         );
         g2d.setPaint(textGradient);
         g2d.drawString(getText(), (getWidth() - textWidth) / 2, (getHeight() + textHeight) / 2 - 4);
-
-        // Çizgiyi kaldırıyoruz
-        // g2d.setColor(new Color(200, 200, 200, 120)); // Rengi silmek istiyorsanız bu satırı kaldırın.
-        // g2d.drawRect(0, 0, getWidth() - 1, getHeight() - 1); // Kenar çizgisini de kaldırıyoruz.
     }
 }
