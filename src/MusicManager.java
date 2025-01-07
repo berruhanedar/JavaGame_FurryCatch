@@ -19,7 +19,6 @@ public class MusicManager {
 
     public static void playMusic(String musicFilePath) {
         try {
-            // Stop the previous music if needed
             if (currentClip != null) {
                 stopMusic();
             }
@@ -27,7 +26,7 @@ public class MusicManager {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(musicFilePath));
             currentClip = AudioSystem.getClip();
             currentClip.open(audioStream);
-            currentClip.loop(Clip.LOOP_CONTINUOUSLY); // Loop indefinitely
+            currentClip.loop(Clip.LOOP_CONTINUOUSLY); 
             currentClip.start();
         } catch (Exception e) {
             System.err.println("Error playing music: " + musicFilePath);
