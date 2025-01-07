@@ -42,7 +42,7 @@ public class OptionsScreen extends JDialog {
             } else {
                 soundToggle.setText("ON");
                 isSoundEnabled = true;
-                MusicManager.playBark(); // Ses testi veya başlangıç sesi
+                MusicManager.playBark(); 
             }
         });
         backgroundPanel.add(soundToggle);
@@ -54,7 +54,7 @@ public class OptionsScreen extends JDialog {
             if (musicToggle.isSelected()) {
                 musicToggle.setText("OFF");
                 isMusicPlaying = false;
-                MusicManager.stopMusic(); // Stop current music
+                MusicManager.stopMusic(); 
             } else {
                 musicToggle.setText("ON");
                 isMusicPlaying = true;
@@ -72,7 +72,7 @@ public class OptionsScreen extends JDialog {
             dispose();
             parent.dispose();
 
-            MainMenu mainMenu = new MainMenu();
+            MainClass mainMenu = new MainClass();
             mainMenu.setVisible(true);
         });
         backgroundPanel.add(menuButton);
@@ -82,15 +82,13 @@ public class OptionsScreen extends JDialog {
         styleButton(restartButton);
         restartButton.addActionListener(e -> {
             System.out.println("Restart button clicked.");
-            if (parent instanceof MainMenu mainMenu) {
+            if (parent instanceof MainClass mainMenu) {
                 if (!mainMenu.isGameStarted) {
-                    // Game hasn't started yet
                     mainMenu.openGameScreen();
                 } else {
-                    // Game has started, reset the game
                     GameClass newGameClass = new GameClass(mainMenu.currentDog, mainMenu.currentCat);
                     newGameClass.restartGame(mainMenu.currentDog, mainMenu.currentCat); // Reset game
-                    dispose(); // Close the options screen
+                    dispose(); 
                 }
             }
         });
