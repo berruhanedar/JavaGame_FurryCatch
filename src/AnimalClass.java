@@ -26,3 +26,4 @@ public class AnimalClass {
         System.out.println("Some generic animal sound");
     }
 }
+ 
