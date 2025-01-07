@@ -1,24 +1,13 @@
 import javax.swing.*;
 import java.util.Random;
 
-public class CatClass {
-    public String name;
-    public int x, y;
-    public ImageIcon icon;
-
+public class CatClass extends AnimalClass {
     public CatClass(String name) {
-        this.name = name;
-        this.x = 0;
-        this.y = 0;
-        this.icon = new ImageIcon("resources/cat_icon.png");  // Ensure correct path
+        super(name, "resources/cat_icon.png");
     }
 
+    @Override
     public void makeSound() {
         System.out.println("Meow!");
-    }
-
-    public void move() {
-        this.x = new Random().nextInt(100);
-        this.y = new Random().nextInt(100);
     }
 }
