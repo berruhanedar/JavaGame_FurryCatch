@@ -51,16 +51,16 @@ public class GameClass extends JFrame {
         setTitle("Animal Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        setSize(1025, 1030);
+        setSize(1025, 830);
 
         JPanel sidePanel = new BackgroundPanel("sidepanel.png");
-        sidePanel.setPreferredSize(new Dimension(200, 500));
+        sidePanel.setPreferredSize(new Dimension(200, 830));
 
         Font customFont;
         try {
             customFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResourceAsStream("airstrike.ttf")).deriveFont(Font.PLAIN, 33);
         } catch (Exception e) {
-            customFont = new Font("Serif", Font.PLAIN, 33); // Varsayılan font
+            customFont = new Font("Serif", Font.PLAIN, 33); 
             System.out.println("Custom font not loaded: " + e.getMessage());
         }
 
@@ -71,7 +71,7 @@ public class GameClass extends JFrame {
         roundLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         dogNameLabel = new JLabel(dog.name);
-        dogNameLabel.setFont(customFont.deriveFont(24f)); // Yazı boyutunu 18 yap
+        dogNameLabel.setFont(customFont.deriveFont(24f)); 
         dogNameLabel.setForeground(new Color(124, 55, 26));
         dogNameLabel.setBounds(10, 465, 180, 24);
         dogNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -83,7 +83,7 @@ public class GameClass extends JFrame {
         dogPositionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         catNameLabel = new JLabel(cat.name);
-        catNameLabel.setFont(customFont.deriveFont(24f)); // Yazı boyutunu 18 yap
+        catNameLabel.setFont(customFont.deriveFont(24f)); 
         catNameLabel.setForeground(new Color(124, 55, 26));
         catNameLabel.setBounds(10, 670, 180, 24);
         catNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -186,20 +186,18 @@ public class GameClass extends JFrame {
 
 
     private void startGame() {
-        // Start game music
-        MusicManager.playMusic("resources/gameMusic.wav"); // Start the background music
+        MusicManager.playMusic("resources/gameMusic.wav"); 
 
         new Timer(1000, e -> {
             roundCount++;
             roundLabel.setText("Round: " + roundCount);
 
-            // Stop the game if round count exceeds 1000
             if (roundCount >= 1000) {
                 System.out.println("Game Over - Maximum rounds reached");
                 JOptionPane.showMessageDialog(this, "Game Over - Maximum rounds reached", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-                ((Timer) e.getSource()).stop();  // Stop the game
+                ((Timer) e.getSource()).stop();  
                 MusicManager.playMusic("resources/gameover.wav");
-                return;  // Exit the method to stop further processing
+                return;  
             }
 
             dog.move();
@@ -208,7 +206,6 @@ public class GameClass extends JFrame {
             dogPositionLabel.setText("x: " + dog.x + ", y: " + dog.y);
             catPositionLabel.setText("x: " + cat.x + ", y: " + cat.y);
 
-            // Print the dog name and position at each round
             System.out.println("Round " + roundCount + ": " + dog.name + "(dog) - Position: (x: " + dog.x + ", y: " + dog.y + ")");
             System.out.println("Round " + roundCount + ": " + cat.name + "(cat) - Position: (x: " + cat.x + ", y: " + cat.y + ")");
 
@@ -230,7 +227,7 @@ public class GameClass extends JFrame {
             if (dog.x == 50 && dog.y == 50 && cat.x == 50 && cat.y == 50) {
                 System.out.println("Game Over");
                 JOptionPane.showMessageDialog(this, "Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-                ((Timer) e.getSource()).stop();  // Stop the game
+                ((Timer) e.getSource()).stop();  
                 MusicManager.playMusic("resources/gameover.wav");
             }
 
@@ -240,38 +237,19 @@ public class GameClass extends JFrame {
 
 
     public void restartGame(DogClass dog, CatClass cat) {
-        // Reset round counter
         roundCount = 0;
         roundLabel.setText("Round: " + roundCount);
 
-        // Reset positions
-        dog.x = 0;  // Assuming the initial position is (0, 0)
+        dog.x = 0;  
         dog.y = 0;
         cat.x = 0;
         cat.y = 0;
 
-        // Update position labels
         dogPositionLabel.setText("(x: " + dog.x + ", y: " + dog.y + ")");
         catPositionLabel.setText("(x: " + cat.x + ", y: " + cat.y + ")");
 
-        // Optionally reset game state (if needed)
         MusicManager.stopMusic();
-        MusicManager.playMusic("resources/gameMusic.wav"); // Restart background music
-
-        // Restart the game logic (e.g., moving the dog and cat)
+        MusicManager.playMusic("resources/gameMusic.wav"); 
         startGame();
-    }
-
-
-
-
-    public static void main(String[] args) {
-        String dogName = JOptionPane.showInputDialog("Enter dog name:");
-        String catName = JOptionPane.showInputDialog("Enter cat name:");
-
-        DogClass dog = new DogClass(dogName);
-        CatClass cat = new CatClass(catName);
-
-        new GameClass(dog, cat);
     }
 }
