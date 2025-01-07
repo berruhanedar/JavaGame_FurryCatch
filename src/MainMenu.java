@@ -15,7 +15,7 @@ public class MainMenu extends JFrame {
     public DogClass currentDog;
     public CatClass currentCat;
 
-    public MainMenu() {
+    public MainClass() {
         setTitle("Furry Catch");
         setSize(800, 840);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,7 +47,6 @@ public class MainMenu extends JFrame {
         optionsButton.setBounds(450, 653, 204, 65);
         buttonPanel.add(optionsButton);
 
-        // Changed to "How to Play"
         howToPlayButton = new GradientTextButton("HOW TO PLAY");
         styleButton(howToPlayButton);
         howToPlayButton.setBounds(195, 736, 459, 74);
@@ -81,9 +80,7 @@ public class MainMenu extends JFrame {
 
         newGameButton.addActionListener(e -> openGameScreen());
         optionsButton.addActionListener(e -> showOptionsScreen());
-
         howToPlayButton.addActionListener(e -> showHowToPlayDialog());
-
         setVisible(true);
     }
 
@@ -126,7 +123,6 @@ public class MainMenu extends JFrame {
 
         String dogName = null;
 
-        // Köpek adı girişi
         while (dogName == null || dogName.trim().isEmpty()) {
             dogName = (String) JOptionPane.showInputDialog(
                     this,
@@ -149,7 +145,6 @@ public class MainMenu extends JFrame {
             }
         }
 
-        // Köpek havlama sesi
         playSound("resources/bark.wav");
         System.out.println(dogName + " is barked!");
 
@@ -159,7 +154,6 @@ public class MainMenu extends JFrame {
 
         String catName = null;
 
-        // Kedi adı girişi
         while (catName == null || catName.trim().isEmpty()) {
             catName = (String) JOptionPane.showInputDialog(
                     this,
@@ -172,7 +166,6 @@ public class MainMenu extends JFrame {
             );
 
             if (catName == null) {
-                // Kullanıcı Back'a basarsa ana menüye dönüyoruz
                 goToMainMenu();
                 return;
             }
@@ -182,11 +175,9 @@ public class MainMenu extends JFrame {
             }
         }
 
-        // Kedi miyavlama sesi
         playSound("resources/meow.wav");
         System.out.println(catName + " is meowed!");
 
-        // Oyun başlatılacak
         currentDog = new DogClass(dogName);
         currentCat = new CatClass(catName);
         new GameClass(currentDog, currentCat);
@@ -194,12 +185,10 @@ public class MainMenu extends JFrame {
 
 
     private void goToMainMenu() {
-        // Ana menüye dönme işlemi
         JOptionPane.showMessageDialog(this, "Returning to main menu...");
         System.out.println("Returning to main menu...");
-        // Ana menüye geri dönmek için yeni bir MainMenu örneği oluşturabiliriz:
-        new MainMenu();
-        this.dispose();  // Mevcut pencereyi kapat
+        new MainClass();
+        this.dispose(); 
     }
 
     private void playSound(String soundFilePath) {
@@ -242,7 +231,7 @@ public class MainMenu extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             MusicManager.playMusic("resources/music.wav");
-            new MainMenu();
+            new MainClass();
         });
     }
 }
