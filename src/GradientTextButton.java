@@ -4,7 +4,7 @@ import java.awt.*;
 class GradientTextButton extends JButton {
     public GradientTextButton(String text) {
         super(text);
-        setContentAreaFilled(false); // Dolgu kaldırıldı
+        setContentAreaFilled(false); 
         setFocusPainted(false);
         setOpaque(false);
     }
@@ -21,7 +21,7 @@ class GradientTextButton extends JButton {
         int textHeight = metrics.getAscent();
 
         GradientPaint textGradient = new GradientPaint(
-                0, 0, new Color(255, 255, 255, 204), // %80 opaklık beyaz
+                0, 0, new Color(255, 255, 255, 204), 
                 getWidth(), getHeight(), new Color(255, 255, 255, 204)
         );
         g2d.setPaint(textGradient);
