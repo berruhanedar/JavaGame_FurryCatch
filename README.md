@@ -52,7 +52,7 @@ To run the game on your local machine, follow these steps:
     ```bash
     cd JavaGame_FurryCatch
     ```
-
+ 
 3. Compile and run the project using your IDE or from the command line.
 
 ### Prerequisites:
